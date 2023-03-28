@@ -29,7 +29,7 @@ app.use(bodyParser.json())
 //set up routes
 
 app.get('/', async(req, res)=>{
-  res.send("Welcome to Shopify API")
+  res.status(200).send("Welcome to Shopify API")
 })
 
 app.use('/users', userRoutes);

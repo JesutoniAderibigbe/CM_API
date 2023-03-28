@@ -136,7 +136,7 @@ if(!isPasswordValid){
 
 //get Users Record
 exports.getUsers = async(req,res)=>{
-    const user = await User.find();
+    const user = await User.find().populate("orders");
     res.json({users: user})
     console.log(user)
 }
