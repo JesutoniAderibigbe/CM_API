@@ -2,7 +2,7 @@ const express = require("express")
 const Product = require('../models/Products')
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
-const Image = require("../models/image");
+
 const cloudinary = require('../utils/cloudinary');
 const upload = require('../middlewares/authfile');
 
