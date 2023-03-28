@@ -28,6 +28,10 @@ app.use(bodyParser.json())
 
 //set up routes
 
+app.get('/', async(req, res)=>{
+  res.send("Welcome to Shopify API")
+})
+
 app.use('/users', userRoutes);
 app.use('/products', productRoutes);
 
