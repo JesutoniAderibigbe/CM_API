@@ -364,12 +364,12 @@ exports.addProductforUser = async (req, res) => {
   exports.updateOrderforUser = async (req, res) => {
     try {
         const { orderId } = req.params;
-        const { productId, deliveryDate } = req.body;
+        const { productId, deliveryDate, destination } = req.body;
 
         // Find the user by order ID and update the order
         const user = await User.findOneAndUpdate(
             { "orders._id": orderId },
-            { $set: { "orders.$.product": productId, "orders.$.deliveryDate": deliveryDate } },
+            { $set: { "orders.$.product": productId, "orders.$.deliveryDate": deliveryDate, "orders.$.destination": destination} },
             { new: true }
         );
         console.log(user);
