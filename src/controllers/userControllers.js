@@ -9,6 +9,26 @@ const Product = require('../models/Products');
 
 const Order = require("../models/Orders");
 
+const config = require('./config');
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: config.email,
+    pass: config.password,
+  },
+});
+
+
+
+
+const generateRandomPassword = require("generate-random-password");
+
+// use config.email and config.password in your code
+
+
 
 
 const SECRET_KEY = "sk_test_51MmyWZKEeMo1d6ezf8DmLqa8OWMHfFbNVDV4fIVS3iur30I2QARaJpukJPGdpUQpm4aCGFq1j0VHBrcm0bNQQpVd00vvYv5GH8";
@@ -180,6 +200,55 @@ exports.updateUsers = async(req, res)=>{
     
     
 }
+
+//forgot password
+ exports.resetPassword = async (req, res) => {
+  const { email } = req.body;
+  
+  // Check if the user with the given email exists
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+
+  function generateRandomPassword(length = 8) {
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return password;
+  }
+  
+  
+  // Generate a new random password
+  const newPassword = generateRandomPassword();
+  
+  // Hash the new password and save it to the database
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
+  await user.save();
+  
+  // Send the new password to the user's email address
+  const mailOptions = {
+    from: config.email,
+    to: email,
+    subject: 'Password reset',
+    text: `Your new password is: ${newPassword}`
+  };
+  
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      res.status(500).json({ message: "Failed to send email" });
+    } else {
+      console.log('Email sent: ' + info.response);
+      res.status(200).json({ message: "Password reset successful" });
+    }
+  });
+};
+
 
 
 
@@ -399,6 +468,10 @@ exports.getOrdersforUser = async(req, res)=>{
   }
  
 }
+
+
+
+
 
 
 

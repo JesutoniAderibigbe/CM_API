@@ -7,7 +7,7 @@ const limiter = require("../middlewares/ratelimit");
 //const authUser = require("../middlewares/authUser");
 
 router.post('/', userController.UserSignUp); // Users Sign Up
-router.post('/login', userController.UserLogin); //Users Login
+router.post('/api/login', userController.UserLogin); //Users Login
 router.get('/', adminKey, userController.getUsers) //Get Users
 router.delete('/:id', adminKey, userController.deleteUsers); //Delete Users
 
@@ -17,6 +17,7 @@ router.delete("/:userId/orders/:orderId", authMiddleware,userController.deleteOr
 router.get("/:email", authMiddleware, userController.getUsersbyId);  // Get Users by EmailId to know what is in the orders cart
 router.put("/:userId", userController.updateOrderforUser); //Update Orders from users cart
 router.get("/orders/:email", userController.getOrdersforUser); //Get Orders for specific users
+router.post("/password", userController.resetPassword); //Forgot Password for Users
 
 router.post("/orders/:email/pay", limiter, authMiddleware, userController.makePayment);//User making payments for the orders
 
