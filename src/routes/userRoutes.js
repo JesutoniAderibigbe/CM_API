@@ -11,7 +11,7 @@ router.post('/api/login', userController.UserLogin); //Users Login
 router.get('/', adminKey, userController.getUsers) //Get Users
 router.delete('/:id', authMiddleware, userController.deleteUsers); //Delete Users
 
-router.put("/:id", authMiddleware, userController.updateUsers); //Update Users
+router.put("/api/v1/:id", authMiddleware, userController.updateUsers); //Update Users
 router.post("/:userId/orders", authMiddleware, limiter, userController.addProductforUser); //Add Orders to users cart
 router.delete("/:userId/orders/:orderId", authMiddleware,userController.deleteOrderForUser); //Delete Orders from users cart
 router.get("/:email", authMiddleware, userController.getUsersbyId);  // Get Users by EmailId to know what is in the orders cart
