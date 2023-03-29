@@ -9,7 +9,7 @@ const limiter = require("../middlewares/ratelimit");
 router.post('/', userController.UserSignUp); // Users Sign Up
 router.post('/api/login', userController.UserLogin); //Users Login
 router.get('/', adminKey, userController.getUsers) //Get Users
-router.delete('/:id', adminKey, userController.deleteUsers); //Delete Users
+router.delete('/:id', authMiddleware, userController.deleteUsers); //Delete Users
 
 router.put("/:id", authMiddleware, userController.updateUsers); //Update Users
 router.post("/:userId/orders", authMiddleware, limiter, userController.addProductforUser); //Add Orders to users cart
