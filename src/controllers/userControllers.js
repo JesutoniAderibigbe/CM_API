@@ -363,7 +363,7 @@ exports.addProductforUser = async (req, res) => {
 
   exports.updateOrderforUser = async (req, res) => {
     try {
-        const { orderId } = req.params;
+        const { orderId, userId } = req.params;
         const { productId, deliveryDate, destination } = req.body;
 
         // Find the user by order ID and update the order

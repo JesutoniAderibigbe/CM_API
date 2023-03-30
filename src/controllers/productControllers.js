@@ -189,7 +189,7 @@ exports.getProductsbyName = async(req, res)=> {
     }
     console.log(product)
    
-    return res.status(200).json({message: "Product has been deleted"})
+    return res.status(200).json({message: `Product with the id ${productId}has been deleted`})
       
     } catch (error) {
       console.log(error)
