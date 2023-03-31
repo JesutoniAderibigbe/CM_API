@@ -272,12 +272,15 @@ exports.addProductforUser = async (req, res) => {
         deliveryDate: new Date(deliveryDate).toISOString(),
         destination: destination
       });
+
+      await order.save();
   
       // Push the order to the user's orders array
       user.orders.push(order);
   
       // Save the user to the database
       await user.save();
+      //await order.save();
   
       res.json({ success: true, message: 'Product added to order' });
     } catch (error) {
@@ -470,8 +473,19 @@ exports.getOrdersforUser = async(req, res)=>{
 }
 
 
+exports.getOrders = async (req, res) => {
+  try {
+    const orders = await Order.find().populate('user');
 
+    if (orders.length === 0) {
+      return res.status(404).json({ message: 'There are no orders.' });
+    }
 
+    console.log(orders);
 
-
-
+    res.status(200).json({ orders });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+};

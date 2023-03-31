@@ -22,6 +22,7 @@ router.post("/api/v1/password", userController.resetPassword); //Forgot Password
 router.post("/api/v1/orders/:email/pay", limiter, authMiddleware, userController.makePayment);//User making payments for the orders
 
 router.get("/api/v1/:userId/orders/price", userController.getOrdersAndPrice);
+router.get("/api/v1/o/orders", userController.getOrders);
 //Get all Orders for admin
 
 
