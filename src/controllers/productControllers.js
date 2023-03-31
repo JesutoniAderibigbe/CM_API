@@ -149,28 +149,46 @@ exports.getProductsbyName = async(req, res)=> {
     try {
         const {productId}= req.params;
 
-        //await cloudinary.uploader.destory(Product.cloudinary_id);
+     
+      //  await cloudinary.uploader.destory(Product.cloudinary_id);
 
 
-        const result = await cloudinary.uploader.upload(req.file.path);
+       const result = await cloudinary.uploader.upload(req.file.path);
 
         
-          console.log(result)
+         console.log(result)
 
         
 
         const product = await Product.findByIdAndUpdate(
-          productId, req.body, {
+          productId, req.body, 
+
+          {
+            title: req.body.title,
+            price: req.body.price,
+            image: result.secure_url,
+            category: req.body.category,
+          },
+          
+          
+          {
             new: true
           }
            
         );
-        console.log(result.secure_url);
+       console.log(result.secure_url);
 
         if(!product){
             return res.status(400).json({message: "There is no such product on the cart"})
         }
-        res.json({product: product})
+        res.json({product: {
+          title: product.title,
+          price: `#${product.price}` ,
+          image: result.secure_url,
+          id: product._id,
+          category: product.category
+
+        }})
     } catch (error) {
       console.log(error)
         res.status(500).json({error: error.message})
