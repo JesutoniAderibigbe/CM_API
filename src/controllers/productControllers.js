@@ -12,6 +12,11 @@ const upload = require('../middlewares/authfile');
 exports.addProduct = async(req, res)=> {
   try {
 
+    if (!req.file) {
+      return res.status(400).json({ error: "No image provided" });
+    }
+    
+
     const result = await cloudinary.uploader.upload(req.file.path);
     
     
@@ -150,7 +155,7 @@ exports.getProductsbyName = async(req, res)=> {
         const result = await cloudinary.uploader.upload(req.file.path);
 
         
-
+          console.log(result)
 
         
 
@@ -167,6 +172,7 @@ exports.getProductsbyName = async(req, res)=> {
         }
         res.json({product: product})
     } catch (error) {
+      console.log(error)
         res.status(500).json({error: error.message})
         
     }
@@ -204,6 +210,9 @@ exports.getProductsbyName = async(req, res)=> {
 
     try {
       const result = await cloudinary.uploader.upload(req.file.path)
+      if(!result){
+        console.log("There is no image to upload")
+      }
       res.status(200).json({message: result})
       
     } catch (error) {
