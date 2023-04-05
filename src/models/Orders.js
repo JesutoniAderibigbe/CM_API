@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema({
   },
   destination: {
     type: String,
-    required: false
+    required: true
   }
 });
 

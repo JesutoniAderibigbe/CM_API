@@ -69,7 +69,7 @@ exports.getAllProducts = async(req, res)=>{
 
           console.log(productsWithImageUrl)
       
-          return res.status(200).json({products: productsWithImageUrl});
+          return res.status(200).json(productsWithImageUrl);
          
         
     } catch (error) {
