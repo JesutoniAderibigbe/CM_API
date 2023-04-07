@@ -82,7 +82,7 @@ exports.UserSignUp = async(req, res)=>{
         
     } catch (error) {
         res.status(404).json({
-            message: 'There is an error message'
+            message: `This is the ${error}`
         })
         console.log(error)
         
